@@ -8,4 +8,5 @@ module com.tugalsan.gvm.fix.screensize {
     requires com.tugalsan.api.string;
     requires com.tugalsan.api.file;
     requires com.tugalsan.api.file.txt;
+    exports com.tugalsan.gvm.fix.screensize;
 }
