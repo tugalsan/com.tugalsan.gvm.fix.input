@@ -1,6 +1,6 @@
 --add-modules
 jdk.incubator.vector
 --patch-module
-com.tugalsan.gvm.screensize=_
+com.tugalsan.gvm.fix.screensize=_
 --add-reads
-com.tugalsan.gvm.screensize=ALL-UNNAMED
+com.tugalsan.gvm.fix.screensize=ALL-UNNAMED

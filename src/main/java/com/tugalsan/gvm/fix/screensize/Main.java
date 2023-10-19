@@ -1,4 +1,4 @@
-package com.tugalsan.gvm.screensize;
+package com.tugalsan.gvm.fix.screensize;
 
 import com.tugalsan.api.input.server.TS_InputScreenUtils;
 import static java.lang.System.out;

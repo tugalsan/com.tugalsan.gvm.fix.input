@@ -1,4 +1,4 @@
-package com.tugalsan.gvm.screensize;
+package com.tugalsan.gvm.fix.screensize;
 
 import com.tugalsan.api.cast.client.TGS_CastUtils;
 import com.tugalsan.api.file.server.TS_FileUtils;

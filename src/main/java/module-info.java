@@ -1,4 +1,4 @@
-module com.tugalsan.gvm.screensize {
+module com.tugalsan.gvm.fix.screensize {
     requires java.desktop;
     requires com.tugalsan.api.stream;
     requires com.tugalsan.api.optional;
