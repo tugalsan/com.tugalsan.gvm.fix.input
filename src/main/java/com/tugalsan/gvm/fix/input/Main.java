@@ -28,9 +28,9 @@ public class Main {
         if (s.length == 2 && Objects.equals(s[0], "screen_shot")) {
             var quality = TGS_CastUtils.toFloat(s[1]);
             var img = TS_InputScreenUtils.shotPicture(TS_InputScreenUtils.size());
-            var file = TS_PathUtils.getPathCurrent_nio(Main.class.getPackageName() + ".jpg").toAbsolutePath();
-            TS_FileImageUtils.toFile(img, file, quality);
-            out.print(file.toString());
+            var jpg = TS_PathUtils.getPathCurrent_nio(Main.class.getPackageName() + ".screen_shot.jpg").toAbsolutePath();
+            TS_FileImageUtils.toFile(img, jpg, quality);
+            out.print(jpg.toString());
             System.exit(0);
         }
         System.exit(1);

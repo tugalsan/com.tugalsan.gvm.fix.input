@@ -17,17 +17,17 @@ import java.time.Duration;
 public class TS_GVMFixInputUtils {
 
     public static TGS_Optional<Rectangle> screen_size(TS_ThreadSyncTrigger kill, Duration maxDuration) {
-        var fileConsoleApp = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
-        if (!TS_FileUtils.isExistFile(fileConsoleApp)) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "File not found", fileConsoleApp.toString());
+        var exe = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
+        if (!TS_FileUtils.isExistFile(exe)) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "File not found", exe.toString());
         }
-        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(fileConsoleApp + " screen_size").output);
+        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(exe + " screen_size").output);
         if (await.exceptionIfFailed.isPresent()) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "screen_size returned empty", await.exceptionIfFailed.get().toString(), fileConsoleApp.toString());
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "returned exception", await.exceptionIfFailed.get().toString(), exe.toString());
         }
         var value = await.resultIfSuccessful.get();
         if (TGS_StringUtils.isNullOrEmpty(value)) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "screen_size returned empty", fileConsoleApp.toString());
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "returned empty", exe.toString());
         }
         if (TGS_StringUtils.isNullOrEmpty(value)) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "File content is empty");
@@ -44,26 +44,41 @@ public class TS_GVMFixInputUtils {
     }
 
     public static TGS_Optional<String> screen_scale(TS_ThreadSyncTrigger kill, Duration maxDuration) {
-        var fileConsoleApp = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
-        if (!TS_FileUtils.isExistFile(fileConsoleApp)) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "File not found", fileConsoleApp.toString());
+        var exe = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
+        if (!TS_FileUtils.isExistFile(exe)) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "File not found", exe.toString());
         }
-        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(fileConsoleApp + " screen_scale").output);
+        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(exe + " screen_scale").output);
         if (await.exceptionIfFailed.isPresent()) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "screen_scale returned empty", await.exceptionIfFailed.get().toString(), fileConsoleApp.toString());
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "returned exception", await.exceptionIfFailed.get().toString(), exe.toString());
         }
         var value = await.resultIfSuccessful.get();
         if (TGS_StringUtils.isNullOrEmpty(value)) {
-            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "screen_scale returned empty", fileConsoleApp.toString());
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "returned empty", exe.toString());
         }
         if (TGS_StringUtils.isNullOrEmpty(value)) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "File content is empty");
         }
         return TGS_Optional.of(value);
     }
-    
-    public static TGS_Optional<Path> screen_shot(TS_ThreadSyncTrigger kill, Duration maxDuration) {
-        
+
+    public static TGS_Optional<Path> screen_shot(TS_ThreadSyncTrigger kill, Duration maxDuration, float quality) {
+        var exe = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
+        if (!TS_FileUtils.isExistFile(exe)) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "File not found", exe.toString());
+        }
+        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(exe + " screen_shot " + quality).output);
+        if (await.exceptionIfFailed.isPresent()) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned exception", await.exceptionIfFailed.get().toString(), exe.toString());
+        }
+        var value = await.resultIfSuccessful.get();
+        if (TGS_StringUtils.isNullOrEmpty(value)) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned empty", exe.toString());
+        }
+        var jpg = TS_PathUtils.of(value);
+        if (jpg == null) {
+            return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned not path-able", value);
+        }
+        return TGS_Optional.of(jpg);
     }
-    
 }
