@@ -1,2 +1,3 @@
+com\tugalsan\gvm\screensize\TS_GVMFixScreenSizeUtils.class
 module-info.class
-com\tugalsan\blg\gvm\graphicsdevice\Main.class
+com\tugalsan\gvm\screensize\Main.class
