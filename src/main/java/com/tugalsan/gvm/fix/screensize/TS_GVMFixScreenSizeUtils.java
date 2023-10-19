@@ -2,6 +2,7 @@ package com.tugalsan.gvm.fix.screensize;
 
 import com.tugalsan.api.cast.client.TGS_CastUtils;
 import com.tugalsan.api.file.server.TS_FileUtils;
+import com.tugalsan.api.file.server.TS_PathUtils;
 import com.tugalsan.api.file.txt.server.TS_FileTxtUtils;
 import com.tugalsan.api.optional.client.TGS_Optional;
 import com.tugalsan.api.os.server.TS_OsProcess;
@@ -14,9 +15,9 @@ import java.nio.file.FileSystems;
 public class TS_GVMFixScreenSizeUtils {
 
     public static TGS_Optional<Rectangle> size() {
-        var fileSize = FileSystems.getDefault().getPath(Main.class.getPackageName() + ".size").toAbsolutePath();
+        var fileSize = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".size").toAbsolutePath();
         if (!TS_FileUtils.isExistFile(fileSize)) {
-            var fileConsoleApp = FileSystems.getDefault().getPath(Main.class.getPackageName() + ".exe").toAbsolutePath();
+            var fileConsoleApp = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
             if (!TS_FileUtils.isExistFile(fileConsoleApp)) {
                 return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixScreenSizeUtils.class.getSimpleName(), "size", "File not found", fileConsoleApp.toString());
             }
