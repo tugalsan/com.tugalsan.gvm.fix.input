@@ -1,1 +1,1 @@
-java -agentlib:native-image-agent=config-output-dir=config --enable-preview --add-modules jdk.incubator.vector -jar target/com.tugalsan.gvm.fix.screensize-1.0-SNAPSHOT-jar-with-dependencies.jar size
+java -agentlib:native-image-agent=config-output-dir=config --enable-preview --add-modules jdk.incubator.vector -jar target/com.tugalsan.gvm.fix.input-1.0-SNAPSHOT-jar-with-dependencies.jar size
