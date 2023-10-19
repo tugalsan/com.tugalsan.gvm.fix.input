@@ -1,5 +1,7 @@
 module com.tugalsan.gvm.fix.screensize {
     requires java.desktop;
+    requires com.tugalsan.api.callable;
+    requires com.tugalsan.api.thread;
     requires com.tugalsan.api.stream;
     requires com.tugalsan.api.optional;
     requires com.tugalsan.api.input;
