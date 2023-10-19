@@ -17,12 +17,12 @@ public class TS_GVMFixScreenSizeUtils {
         var fileSize = FileSystems.getDefault().getPath(Main.class.getPackageName() + ".size").toAbsolutePath();
         if (!TS_FileUtils.isExistFile(fileSize)) {
             var fileConsoleApp = FileSystems.getDefault().getPath(Main.class.getPackageName() + ".exe").toAbsolutePath();
-            if (TS_FileUtils.isExistFile(fileConsoleApp)) {
+            if (!TS_FileUtils.isExistFile(fileConsoleApp)) {
                 return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixScreenSizeUtils.class.getSimpleName(), "size", "File not found", fileConsoleApp.toString());
             }
             var strSize = TS_OsProcess.of(fileConsoleApp.toString()).output;
             if (TGS_StringUtils.isNullOrEmpty(strSize)) {
-                return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixScreenSizeUtils.class.getSimpleName(), "size", "Cannot read fileSize", fileSize.toString());
+                return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixScreenSizeUtils.class.getSimpleName(), "size", "Cannot screensize returned empty", fileConsoleApp.toString());
             }
             TS_FileTxtUtils.toFile(strSize, fileSize, false);
         }
