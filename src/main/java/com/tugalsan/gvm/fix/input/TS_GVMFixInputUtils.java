@@ -1,6 +1,7 @@
 package com.tugalsan.gvm.fix.input;
 
 import com.tugalsan.api.cast.client.TGS_CastUtils;
+import com.tugalsan.api.file.img.server.TS_FileImageUtils;
 import com.tugalsan.api.file.server.TS_FileUtils;
 import com.tugalsan.api.file.server.TS_PathUtils;
 import com.tugalsan.api.optional.client.TGS_Optional;
@@ -11,7 +12,7 @@ import com.tugalsan.api.string.server.TS_StringUtils;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import java.awt.Rectangle;
-import java.nio.file.Path;
+import java.awt.image.BufferedImage;
 import java.time.Duration;
 
 public class TS_GVMFixInputUtils {
@@ -62,12 +63,12 @@ public class TS_GVMFixInputUtils {
         return TGS_Optional.of(value);
     }
 
-    public static TGS_Optional<Path> screen_shot(TS_ThreadSyncTrigger kill, Duration maxDuration, float quality) {
+    public static TGS_Optional<BufferedImage> screen_shot(TS_ThreadSyncTrigger kill, Duration maxDuration, float scale, float quality) {
         var exe = TS_PathUtils.getPathCurrent_nio().getParent().resolve(Main.class.getPackageName()).resolve(Main.class.getPackageName() + ".exe").toAbsolutePath();
         if (!TS_FileUtils.isExistFile(exe)) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "File not found", exe.toString());
         }
-        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(exe + " screen_shot " + quality).output);
+        var await = TS_ThreadAsyncAwait.callSingle(kill, maxDuration, kt -> TS_OsProcess.of(exe + " screen_shot " + scale + " " + quality).output);
         if (await.exceptionIfFailed.isPresent()) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned exception", await.exceptionIfFailed.get().toString(), exe.toString());
         }
@@ -75,7 +76,7 @@ public class TS_GVMFixInputUtils {
         if (TGS_StringUtils.isNullOrEmpty(value)) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned empty", exe.toString());
         }
-        var jpg = TS_PathUtils.of(value);
+        var jpg = TS_FileImageUtils.ToImage(value);
         if (jpg == null) {
             return TGS_Optional.ofEmpty("ERROR @", TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned not path-able", value);
         }
