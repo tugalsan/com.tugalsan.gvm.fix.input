@@ -24,6 +24,13 @@ public class Main {
             out.print(flt);
             System.exit(0);
         }
+        if (s.length == 1 && Objects.equals(s[0], "screen_shot")) {
+            var scale = TS_InputScreenUtils.scale();
+            var img = TS_InputScreenUtils.shotPicture(TS_InputScreenUtils.size(scale));
+            var str = TS_FileImageUtils.toBase64(img, "jpg");
+            out.print(str);
+            System.exit(0);
+        }
         if (s.length == 2 && Objects.equals(s[0], "screen_shot")) {
             var scale = TGS_CastUtils.toFloat(s[1]);
             var img = TS_InputScreenUtils.shotPicture(TS_InputScreenUtils.size(scale));
