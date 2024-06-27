@@ -1,6 +1,6 @@
 module com.tugalsan.gvm.fix.input {
     requires java.desktop;
-    requires com.tugalsan.api.callable;
+    requires com.tugalsan.api.function;
     requires com.tugalsan.api.thread;
     requires com.tugalsan.api.stream;
     requires com.tugalsan.api.input;
