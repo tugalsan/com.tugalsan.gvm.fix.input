@@ -7,8 +7,7 @@ import com.tugalsan.api.file.server.TS_PathUtils;
 import com.tugalsan.api.os.server.TS_OsProcess;
 import com.tugalsan.api.stream.client.TGS_StreamUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
-import com.tugalsan.api.string.server.TS_StringUtils;
-import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
+import com.tugalsan.api.thread.server.async.await.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.awt.Rectangle;
@@ -17,6 +16,10 @@ import java.nio.file.Path;
 import java.time.Duration;
 
 public class TS_GVMFixInputUtils {
+    
+    private TS_GVMFixInputUtils(){
+        
+    }
 
     public static Path java() {
         return Path.of("C:\\bin\\java\\home\\bin\\javaw.exe");
@@ -37,16 +40,16 @@ public class TS_GVMFixInputUtils {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "returned exception: " + await.exceptionIfFailed.get().toString() + " | " + jar.toString());
         }
         var value = await.resultIfSuccessful.get();
-        if (TGS_StringUtils.isNullOrEmpty(value)) {
+        if (TGS_StringUtils.cmn().isNullOrEmpty(value)) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "returned empty: " + jar.toString());
         }
         value = value.replace("WARNING: Using incubator modules: jdk.incubator.vertor", "");
         value = value.replace("\n", "");
-        var lstStr = TS_StringUtils.toList_spc(value);
+        var lstStr = TGS_StringUtils.jre().toList_spc(value);
         if (lstStr.size() != 4) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "content values count is not 4, value: " + value);
         }
-        var lstInt = TGS_StreamUtils.toLst(lstStr.stream().map(s -> TGS_CastUtils.toInteger(s)).filter(i -> i != null));
+        var lstInt = TGS_StreamUtils.toLst(lstStr.stream().map(s -> TGS_CastUtils.toInteger(s).orElseThrow()).filter(i -> i != null));
         if (lstInt.size() != 4) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_size", "content values that can be converted to integer count is not 4, value: " + value);
         }
@@ -64,12 +67,12 @@ public class TS_GVMFixInputUtils {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "returned exception: " + await.exceptionIfFailed.get().toString() + " | " + jar.toString());
         }
         var value = await.resultIfSuccessful.get();
-        if (TGS_StringUtils.isNullOrEmpty(value)) {
+        if (TGS_StringUtils.cmn().isNullOrEmpty(value)) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "returned empty: " + jar.toString());
         }
         value = value.replace("WARNING: Using incubator modules: jdk.incubator.vertor", "");
         value = value.replace("\n", "");
-        var flt = TGS_CastUtils.toFloat(value);
+        var flt = TGS_CastUtils.toFloat(value).orElseThrow();
         if (flt == null) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_scale", "cannot cast to float: " + value + " | " + jar.toString());
         }
@@ -91,7 +94,7 @@ public class TS_GVMFixInputUtils {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned exception: " + await.exceptionIfFailed.get().toString() + " | " + jar.toString());
         }
         var value = await.resultIfSuccessful.get();
-        if (TGS_StringUtils.isNullOrEmpty(value)) {
+        if (TGS_StringUtils.cmn().isNullOrEmpty(value)) {
             return TGS_UnionExcuse.ofExcuse(TS_GVMFixInputUtils.class.getSimpleName(), "screen_shot", "returned empty: " + jar.toString());
         }
         value = value.replace("WARNING: Using incubator modules: jdk.incubator.vertor", "");
